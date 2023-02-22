@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { AuthProvider } from "@asgardeo/auth-react";
+import config from "./config.json";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -11,7 +13,9 @@ root.render(
         <script src="https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js" crossOrigin="true"></script>
         <script src="https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js" crossOrigin="true"></script>
         <script src="https://cdn.jsdelivr.net/npm/react-bootstrap@next/dist/react-bootstrap.min.js" crossOrigin="true"></script>
-        <App />
+        <AuthProvider config={config}>
+            <App />
+        </AuthProvider>
     </>
 );
 

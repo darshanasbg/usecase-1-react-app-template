@@ -1,0 +1,14 @@
+{
+    "baseUrl": "https://api.asgardeo.io/t/daraz",
+    "clientID": "qPjDyTP56nNwtrTfbgTv8anzymAa",
+    "scope": [
+        "openid",
+        "profile",
+        "urn:daraz:catelogadmin:get",
+        "urn:daraz:catelogadmin:delete",
+        "urn:daraz:catelogadmin:add",
+        "urn:daraz:catelogadmin:update"
+    ],
+    "signInRedirectURL": "https://localhost:3000",
+    "signOutRedirectURL": "https://localhost:3000"
+}

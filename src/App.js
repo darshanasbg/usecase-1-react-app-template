@@ -1,11 +1,12 @@
 // import logo from './logo.svg';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import './App.scss';
 import { Nav, Navbar, Container }  from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import { useAuthContext } from "@asgardeo/auth-react";
 
 import Catalog from './components/Catalog/Catalog.js';
 import MyCart from './components/MyCart/Cart.js';
@@ -14,25 +15,39 @@ import Admin from './components/Admin/Admin.js';
 // Component to render the login/signup/logout menu
 const RightLoginSignupMenu = () => {
   // Based on Asgardeo SDK, set a variable like below to check and conditionally render the menu
-  let isLoggedIn = false;
+
+  const { signIn, signOut, state, getBasicUserInfo } = useAuthContext();
+  const [ userInfo, setUserInfo ] = useState(null);
+
+  useEffect(() => {
+    if (!state.isAuthenticated) {
+      return;
+    }
+    getBasicUserInfo().then((response) => {
+      setUserInfo(response);
+    });
+  }, [ state.isAuthenticated, getBasicUserInfo ]);
 
   // Host the menu content and return it at the end of the function
   let menu;
 
   // Conditionally render the following two links based on whether the user is logged in or not
-  if (isLoggedIn) {
+if (state.isAuthenticated) {
     menu =  <>
       <Nav>
-      <Nav.Link href="#deets">Logout</Nav.Link>
-      <Nav.Link href="#deets"><FontAwesomeIcon icon={faUser} /></Nav.Link></Nav>
+      <Nav.Link onClick={ () => signOut() }>Logout</Nav.Link>
+      <Nav.Link href="#deets"><FontAwesomeIcon icon={ faUser } />{ userInfo?.username }</Nav.Link></Nav>
     </>
   } else {
     menu = <>
       <Nav>
-      <Nav.Link href="#deets">Login</Nav.Link>
-      <Nav.Link href="#deets">Sign Up</Nav.Link></Nav>
+        <Nav.Link onClick={ () => signIn() }>Login</Nav.Link>
+        <Nav.Link href="#deets">Sign Up</Nav.Link>
+      </Nav>
     </>
   }
+
+
   return menu;
 }
 
@@ -68,15 +83,9 @@ const App = () => {
       <BrowserRouter>
       <PetStoreNav />
       <Switch>
-        <Route exact path="/">
-          <Catalog />
-        </Route>
-        <Route path="/mycart">
-          <MyCart />
-        </Route>
-        <Route path="/admin">
-          <Admin />
-        </Route>
+        <Route exact path="/" component={Catalog} />
+        <Route path="/mycart" component={MyCart} />
+        <Route path="/admin" component={Admin} />
       </Switch>
     </BrowserRouter>
     </>
