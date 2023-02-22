@@ -10,5 +10,6 @@
         "urn:daraz:catelogadmin:update"
     ],
     "signInRedirectURL": "https://localhost:3000",
-    "signOutRedirectURL": "https://localhost:3000"
+    "signOutRedirectURL": "https://localhost:3000",
+    "resourceServerURLs": ["https://a4bcf7b0-79b1-4ffb-99cc-dbbaee233af5-prod.e1-us-east-azure.choreoapis.dev"]
 }
