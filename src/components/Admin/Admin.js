@@ -17,7 +17,7 @@ export default function Admin() {
         url: "https://a4bcf7b0-79b1-4ffb-99cc-dbbaee233af5-prod.e1-us-east-azure.choreoapis.dev/bilp/catelog-admin/1.0.0/items"
     };
 
-    useEffect(() => {
+    const fetchData = () => {
         httpRequest(requestConfig)
             .then((response) => {
                 if (response && response.data) {
@@ -27,8 +27,41 @@ export default function Admin() {
                 }
             })
             .catch((error) => console.error("Error fetching data:", error));
+    };
+
+    useEffect(() => {
+        fetchData();
     }, [httpRequest]);
-  
+
+    const handleDelete = (itemId) => {
+        const url = `https://a4bcf7b0-79b1-4ffb-99cc-dbbaee233af5-prod.e1-us-east-azure.choreoapis.dev/bilp/catelog-admin/1.0.0/item/${itemId}`;
+
+        httpRequest({
+            url,
+            method: "DELETE"
+        })
+            .then((response) => {
+                console.log("Item delete call successful:", response);
+                fetchData();
+            })
+            .catch((error) => console.error("API call failed:", error));
+    };
+
+
+    const handleEdit = (itemId) => {
+        const url = `https://a4bcf7b0-79b1-4ffb-99cc-dbbaee233af5-prod.e1-us-east-azure.choreoapis.dev/bilp/catelog-admin/1.0.0/item/${itemId}`;
+
+        httpRequest({
+            url,
+            method: "PUT"
+        })
+            .then((response) => {
+                console.log("Item edit call successful:", response);
+                fetchData();
+            })
+            .catch((error) => console.error("API call failed:", error));
+    };
+
     return (
         <>
         <Container className="mt-5">
@@ -63,7 +96,23 @@ export default function Admin() {
                             <td>Red, White, Black</td>
                             <td>100% Acrylic</td>
                             <td>{"$"+item.price}</td>
-                            <td><Button variant="primary" size="sm">Edit</Button>&nbsp;<Button variant="danger" size="sm">Delete</Button></td>
+                            <td>
+                                <Button
+                                    variant="primary"
+                                    size="sm"
+                                    onClick={() => handleEdit(item.id)}
+                                >
+                                    Edit
+                                </Button>
+                                &nbsp;
+                                <Button
+                                    variant="danger"
+                                    size="sm"
+                                    onClick={() => handleDelete(item.id)}
+                                >
+                                    Delete
+                                </Button>
+                            </td>
                         </tr>
                     ))}
                     <tr className="text-end">
