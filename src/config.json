@@ -4,6 +4,7 @@
     "scope": [
         "openid",
         "profile",
+        "groups",
         "urn:daraz:catelogadmin:get",
         "urn:daraz:catelogadmin:delete",
         "urn:daraz:catelogadmin:add",
